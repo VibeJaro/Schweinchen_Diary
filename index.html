@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="de" class="h-full">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Schweinchen‑Tagebuch 🐷 für Elisa</title>
+  <meta name="description" content="Tagebuch von Elisas Kuscheltier-Schweinchen – täglich ein Eintrag mit Bildern und Text." />
+  <meta name="theme-color" content="#fde68a">
+  <meta property="og:title" content="Elisas Schweinchen‑Tagebuch" />
+  <meta property="og:description" content="Jeden Tag neue Bilder und kleine Geschichten vom Kuschelschwein." />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🐷</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --bg1:#fff1f2; /* rose-50 */
+      --bg2:#fff7ed; /* orange-50 */
+      --tint:#f9a8d4; /* pink-300 */
+      --ink:#1f2937; /* gray-800 */
+    }
+    .pretty-bg{ background: radial-gradient(1200px 600px at 10% -10%, var(--bg2), transparent 60%), radial-gradient(1000px 600px at 110% 10%, var(--bg1), transparent 60%), linear-gradient(180deg, #fff, #fff); }
+    .card{ @apply rounded-3xl shadow-xl bg-white/90 backdrop-blur p-6 sm:p-8 border border-white/60; }
+    .hover-pop{ transition: transform .2s ease, box-shadow .2s ease; }
+    .hover-pop:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
+    .prose p { margin: .6rem 0; }
+    .fade-in { animation: fade 420ms ease; }
+    @keyframes fade{ from{opacity:0; transform: translateY(6px)} to{opacity:1; transform: translateY(0)} }
+  </style>
+</head>
+<body class="h-full pretty-bg text-[17px] text-zinc-800" style="font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Quicksand', sans-serif">
+  <!-- Hero -->
+  <header class="max-w-4xl mx-auto px-4 pt-10 pb-4">
+    <div class="flex items-center gap-4">
+      <!-- Schweinchen-Logo (SVG) -->
+      <div class="relative">
+        <svg class="w-16 h-16 sm:w-20 sm:h-20 drop-shadow" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#fbcfe8"/>
+              <stop offset="100%" stop-color="#fef3c7"/>
+            </linearGradient>
+          </defs>
+          <circle cx="60" cy="60" r="56" fill="url(#g)" stroke="#fff" stroke-width="6"/>
+          <ellipse cx="60" cy="64" rx="34" ry="26" fill="#fecdd3"/>
+          <ellipse cx="48" cy="54" rx="6" ry="8" fill="#f472b6"/>
+          <ellipse cx="72" cy="54" rx="6" ry="8" fill="#f472b6"/>
+          <ellipse cx="60" cy="72" rx="16" ry="12" fill="#f9a8d4"/>
+          <circle cx="54" cy="72" r="3" fill="#7c3aed"/>
+          <circle cx="66" cy="72" r="3" fill="#7c3aed"/>
+          <path d="M22 58c6-14 18-24 38-26" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+          <path d="M98 58c-6-14-18-24-38-26" stroke="#fb7185" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Elisas Schweinchen‑Tagebuch</h1>
+        <p class="text-zinc-600 mt-1">Jeden Tag kleine Abenteuer – in Bildern und Worten. 💌</p>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="mt-6 flex flex-wrap gap-3">
+      <button id="copyTemplate" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-pink-500 text-white hover:bg-pink-600 transition shadow">Vorlage kopieren</button>
+      <button id="themeToggle" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-white/80 border hover:bg-white transition shadow">🌗&nbsp;Theme</button>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <main id="app" class="max-w-4xl mx-auto px-4 pb-20">
+    <!-- Posts werden per JS gerendert -->
+  </main>
+
+  <footer class="border-t bg-white/60 backdrop-blur">
+    <div class="max-w-4xl mx-auto px-4 py-6 text-sm text-zinc-600 flex flex-col sm:flex-row gap-2 sm:items-center sm:justify-between">
+      <span>© <span id="year"></span> Schweinchen für Elisa</span>
+      <span>Gemacht mit ❤️ von Papa</span>
+    </div>
+  </footer>
+
+  <!-- Lightbox Overlay -->
+  <div id="lightbox" class="fixed inset-0 hidden items-center justify-center bg-black/70 z-50">
+    <button id="lbClose" class="absolute top-4 right-4 text-white/90 text-2xl" aria-label="Schließen">✕</button>
+    <img id="lbImg" alt="Großansicht" class="max-h-[88vh] max-w-[92vw] rounded-2xl shadow-2xl" />
+  </div>
+
+  <script>
+    // ——————————————————————————————
+    // KONFIG & POSTS
+    const POSTS = [
+      // Beispiel – ersetze durch echte Einträge
+      { date: "2025-09-08", title: "Anreise & erstes Quieken", text: `Hallo Elisa! Heute hat mich der Koffer gekitzelt. Ich habe aus dem Fenster geschaut und Wölkchen gezählt. Abends gab's Apfelsaft. *Sehr* lecker!`, images: ["images/tag1_a.jpg","images/tag1_b.jpg"] },
+      { date: "2025-09-09", title: "Strandspaziergang mit Sandnase", text: `Ich bin durch warmen Sand getapst. Eine Möwe hat mir ihr Lieblingslied gepfiffen. Danach gab's eine Gurkenstulle. Oink!`, images: ["images/tag2_a.jpg"] }
+    ];
+
+    // ——————————————————————————————
+    // THEME (hell/dunkel)
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const savedTheme = localStorage.getItem('theme');
+    if ((savedTheme === 'dark') || (!savedTheme && prefersDark)) document.documentElement.classList.add('dark');
+    const toggleBtn = document.getElementById('themeToggle');
+    toggleBtn?.addEventListener('click', ()=>{
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('theme', document.documentElement.classList.contains('dark')?'dark':'light');
+    });
+
+    // Dark Mode Tweaks
+    tailwind.config = {
+      theme: { extend: {} },
+      darkMode: 'class'
+    }
+    if (document.documentElement.classList.contains('dark')) {
+      document.body.style.background = 'radial-gradient(1200px 600px at 10% -10%, #0f172a, transparent 60%), radial-gradient(1000px 600px at 110% 10%, #1f2937, transparent 60%), linear-gradient(180deg, #111827, #0b1220)';
+      document.body.classList.add('text-zinc-200');
+    }
+
+    // ——————————————————————————————
+    // Hilfsfunktionen
+    const fmt = new Intl.DateTimeFormat('de-DE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+
+    function mdLite(text=''){
+      // ganz leichtes *kursiv* und **fett**
+      return (text||'')
+        .replace(/\*\*(.+?)\*\*/g, '<strong>$1<\/strong>')
+        .replace(/\*(.+?)\*/g, '<em>$1<\/em>')
+        .replace(/
+
++/g, '</p><p>');
+    }
+
+    function renderPost(post){
+      const date = new Date(post.date + 'T12:00:00');
+      const dateStr = fmt.format(date);
+      const title = post.title ? `<h3 class="text-2xl font-semibold mb-2 tracking-tight">${post.title}</h3>` : '';
+      const imgs = (post.images||[]).map((src, i)=>`
+        <button class="group relative block focus:outline-none" data-img="${src}">
+          <img loading="lazy" src="${src}" alt="Foto ${i+1} zu ${post.title||'Tagebuch'}" class="w-full rounded-2xl shadow hover-pop" />
+          <span class="absolute right-2 bottom-2 text-[11px] px-2 py-1 rounded-full bg-white/80 text-zinc-700 shadow">Foto ${i+1}</span>
+        </button>
+      `).join('');
+
+      return `
+        <article class="card fade-in mb-8">
+          <div class="flex items-center gap-2 text-sm text-zinc-500 mb-1">
+            <span>📅 ${dateStr}</span>
+          </div>
+          ${title}
+          <div class="prose max-w-none leading-7"> <p>${mdLite(post.text||'')}</p> </div>
+          ${imgs ? `<div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-4">${imgs}</div>` : ''}
+        </article>
+      `;
+    }
+
+    function render(posts){
+      const root = document.getElementById('app');
+      const sorted = [...posts].sort((a,b)=> a.date < b.date ? 1 : -1);
+      if (!sorted.length){ root.innerHTML = `<div class='card'><p>Noch keine Einträge – heute starten? ✨</p></div>`; return; }
+      root.innerHTML = sorted.map(renderPost).join('
+');
+      bindLightbox();
+    }
+
+    // Lightbox
+    function bindLightbox(){
+      const lb = document.getElementById('lightbox');
+      const img = document.getElementById('lbImg');
+      const close = ()=>{ lb.classList.add('hidden'); img.src=''; }
+      document.querySelectorAll('[data-img]').forEach(el=>{
+        el.addEventListener('click', ()=>{ img.src = el.getAttribute('data-img'); lb.classList.remove('hidden'); });
+      });
+      document.getElementById('lbClose').addEventListener('click', close);
+      lb.addEventListener('click', (e)=>{ if(e.target===lb) close(); });
+      window.addEventListener('keydown', (e)=>{ if (e.key==='Escape') close(); });
+    }
+
+    // Hash‑Draft (schnelle Vorschau)
+    function parseHashDraft(){
+      if (!location.hash) return null;
+      const q = new URLSearchParams(location.hash.slice(1));
+      if (!q.get('date') && !q.get('text')) return null;
+      return { date: q.get('date') || new Date().toISOString().slice(0,10), title: q.get('title')||'', text: q.get('text')||'', images: q.getAll('img') };
+    }
+
+    const draft = parseHashDraft();
+    const data = draft ? [draft, ...POSTS] : POSTS;
+    render(data);
+
+    // Footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Vorlage in Zwischenablage kopieren
+    document.getElementById('copyTemplate')?.addEventListener('click', async ()=>{
+      const tpl = `{
+  date: "${new Date().toISOString().slice(0,10)}",
+  title: "Titel hier",
+  text: "2–4 Sätze vom Schweinchen. *kursiv* und **fett** gehen.",
+  images: ["images/foto1.jpg"]
+},`;
+      try{ await navigator.clipboard.writeText(tpl); alert('Vorlage kopiert! Füge sie in das POSTS‑Array ein.'); }catch{ alert('Kopieren nicht möglich – Safari/iOS? Dann Text manuell markieren.'); }
+    });
+  </script>
+</body>
+</html>
