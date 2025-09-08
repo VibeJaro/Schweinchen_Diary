@@ -6,7 +6,7 @@
   <title>Schweinchen‑Tagebuch 🐷 für Elisa</title>
   <meta name="description" content="Tagebuch von Elisas Kuscheltier-Schweinchen – täglich ein Eintrag mit Bildern und Text." />
   <meta name="theme-color" content="#fde68a">
-  <meta property="og:title" content="Elisas Schweinchen‑Tagebuch" />
+  <meta property="og:title" content="Schweinis geheimes Tagebuch" />
   <meta property="og:description" content="Jeden Tag neue Bilder und kleine Geschichten vom Kuschelschwein." />
   <meta property="og:type" content="website" />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🐷</text></svg>">
@@ -20,6 +20,8 @@
       --ink:#1f2937; /* gray-800 */
     }
     .pretty-bg{ background: radial-gradient(1200px 600px at 10% -10%, var(--bg2), transparent 60%), radial-gradient(1000px 600px at 110% 10%, var(--bg1), transparent 60%), linear-gradient(180deg, #fff, #fff); }
+    .dark .pretty-bg{ background: radial-gradient(1200px 600px at 10% -10%, #0f172a, transparent 60%), radial-gradient(1000px 600px at 110% 10%, #1f2937, transparent 60%), linear-gradient(180deg, #111827, #0b1220); }
+    .dark body{ color: #e5e7eb; }
     .card{
       border-radius: 1.5rem; /* rounded-3xl */
       box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1); /* shadow-xl */
@@ -31,6 +33,12 @@
     @media (min-width:640px){ /* sm: */
       .card{ padding: 2rem; } /* sm:p-8 */
     }
+    /* Dark mode: Karten dunkel + Text hell, für bessere Lesbarkeit */
+    .dark .card{
+      background: rgba(24,24,27,0.9); /* ~zinc-900/90 */
+      border-color: rgba(255,255,255,0.08);
+      color: #e5e7eb; /* zinc-200 */
+    }
     .hover-pop{ transition: transform .2s ease, box-shadow .2s ease; }
     .hover-pop:hover{ transform: translateY(-3px); box-shadow: 0 18px 40px rgba(0,0,0,.08); }
     .prose p { margin: .6rem 0; }
@@ -38,18 +46,18 @@
     @keyframes fade{ from{opacity:0; transform: translateY(6px)} to{opacity:1; transform: translateY(0)} }
   </style>
 </head>
-<body class="h-full pretty-bg text-[16px] sm:text-[17px] text-zinc-800" style="font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Quicksand', sans-serif">
+<body class="h-full pretty-bg text-[16px] sm:text-[17px] text-zinc-800 dark:text-zinc-200" style="font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Quicksand', sans-serif">
   <!-- Hero -->
   <header class="max-w-4xl mx-auto px-3 sm:px-4 pt-6 sm:pt-10 pb-4">
-    <div class="flex items-center gap-4">
+    <div class="flex flex-col items-center gap-3 sm:gap-4 text-center">
       <!-- Schweinchen-Logo (SVG) -->
       <div class="relative">
         <!-- Ersetze images/logo.svg durch dein eigenes Bild (png/jpg/svg) -->
-        <img src="images/logo.svg" alt="Logo des Schweinchen‑Tagebuchs" class="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover drop-shadow" />
+        <img src="images/logo.png" alt="Logo des Schweinchen‑Tagebuchs" class="w-14 h-14 sm:w-20 sm:h-20 rounded-full object-cover drop-shadow" />
       </div>
       <div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Elisas Schweinchen‑Tagebuch</h1>
-        <p class="text-zinc-600 mt-1">Jeden Tag kleine Abenteuer – in Bildern und Worten. 💌</p>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Schweinis geheimes Tagebuch</h1>
+        <p class="text-zinc-600 dark:text-zinc-300 mt-1">Ganz geheim, nur für mich 💌</p>
       </div>
     </div>
     <!-- Quick Actions entfernt -->
@@ -78,7 +86,7 @@
     // KONFIG & POSTS
     const POSTS = [
       // Beispiel – ersetze durch echte Einträge
-      { date: "2025-09-08", title: "Anreise & erstes Quieken", text: `Hallo Elisa! Heute hat mich der Koffer gekitzelt. Ich habe aus dem Fenster geschaut und Wölkchen gezählt. Abends gab's Apfelsaft. *Sehr* lecker!`, images: ["images/tag1_a.jpg","images/tag1_b.jpg"] },
+    { date: "2025-09-09", title: "Elisa schon wieder weg", text: `Meine liebste Elisa ist schon wieder weg. Ich habe so getan, als ob mir das nichts ausmacht, aber ich habe schon über 100 Taschentücher vollgerotzt. Na ja, nachher stecke ich die dem Typen in den Kissenbezug, das wird lustig :D`, images: ["images/tag1_a.jpg","images/tag1_b.jpg"] },
       { date: "2025-09-09", title: "Strandspaziergang mit Sandnase", text: `Ich bin durch warmen Sand getapst. Eine Möwe hat mir ihr Lieblingslied gepfiffen. Danach gab's eine Gurkenstulle. Oink!`, images: ["images/tag2_a.jpg"] }
     ];
 
@@ -93,10 +101,7 @@
       theme: { extend: {} },
       darkMode: 'class'
     }
-    if (document.documentElement.classList.contains('dark')) {
-      document.body.style.background = 'radial-gradient(1200px 600px at 10% -10%, #0f172a, transparent 60%), radial-gradient(1000px 600px at 110% 10%, #1f2937, transparent 60%), linear-gradient(180deg, #111827, #0b1220)';
-      document.body.classList.add('text-zinc-200');
-    }
+    
 
     // ——————————————————————————————
     // Hilfsfunktionen
@@ -115,15 +120,14 @@
       const dateStr = fmt.format(date);
       const title = post.title ? `<h3 class="text-2xl font-semibold mb-2 tracking-tight">${post.title}</h3>` : '';
       const imgs = (post.images||[]).map((src, i)=>`
-        <button class="group relative block focus:outline-none" data-img="${src}">
+        <button class="group block focus:outline-none" data-img="${src}">
           <img loading="lazy" src="${src}" alt="Foto ${i+1} zu ${post.title||'Tagebuch'}" class="w-full rounded-2xl shadow hover-pop" />
-          <span class="absolute right-2 bottom-2 text-[11px] px-2 py-1 rounded-full bg-white/80 text-zinc-700 shadow">Foto ${i+1}</span>
         </button>
       `).join('');
 
       return `
         <article class="card fade-in mb-8">
-          <div class="flex items-center gap-2 text-sm text-zinc-500 mb-1">
+          <div class="flex items-center gap-2 text-sm text-zinc-500 dark:text-zinc-400 mb-1">
             <span>📅 ${dateStr}</span>
           </div>
           ${title}
