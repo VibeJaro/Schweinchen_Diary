@@ -30,7 +30,7 @@
 </head>
 <body class="h-full pretty-bg text-[17px] text-zinc-800" style="font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Quicksand', sans-serif">
   <!-- Hero -->
-  <header class="max-w-4xl mx-auto px-4 pt-10 pb-4">
+  <header class="max-w-4xl mx-auto px-4 pt-10 pb-4 card text-center sm:text-left">
     <div class="flex items-center gap-4">
       <!-- Schweinchen-Logo (SVG) -->
       <div class="relative">
@@ -53,15 +53,15 @@
         </svg>
       </div>
       <div>
-        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Elisas Schweinchen‑Tagebuch</h1>
+        <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-pink-500 to-yellow-500 bg-clip-text text-transparent">Elisas Schweinchen‑Tagebuch</h1>
         <p class="text-zinc-600 mt-1">Jeden Tag kleine Abenteuer – in Bildern und Worten. 💌</p>
       </div>
     </div>
 
     <!-- Quick Actions -->
     <div class="mt-6 flex flex-wrap gap-3">
-      <button id="copyTemplate" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-pink-500 text-white hover:bg-pink-600 transition shadow">Vorlage kopieren</button>
-      <button id="themeToggle" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-white/80 border hover:bg-white transition shadow">🌗&nbsp;Theme</button>
+      <button id="copyTemplate" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-pink-500 text-white hover:bg-pink-600 transition shadow transform hover:scale-105">Vorlage kopieren</button>
+      <button id="themeToggle" class="inline-flex items-center gap-2 rounded-2xl px-4 py-2 bg-white/80 border hover:bg-white transition shadow transform hover:scale-105">🌗&nbsp;Theme</button>
     </div>
   </header>
 
@@ -87,9 +87,9 @@
     // ——————————————————————————————
     // KONFIG & POSTS
     const POSTS = [
-      // Beispiel – ersetze durch echte Einträge
-      { date: "2025-09-08", title: "Anreise & erstes Quieken", text: `Hallo Elisa! Heute hat mich der Koffer gekitzelt. Ich habe aus dem Fenster geschaut und Wölkchen gezählt. Abends gab's Apfelsaft. *Sehr* lecker!`, images: ["images/tag1_a.jpg","images/tag1_b.jpg"] },
-      { date: "2025-09-09", title: "Strandspaziergang mit Sandnase", text: `Ich bin durch warmen Sand getapst. Eine Möwe hat mir ihr Lieblingslied gepfiffen. Danach gab's eine Gurkenstulle. Oink!`, images: ["images/tag2_a.jpg"] }
+      { date: "2025-09-10", title: "Gurkenpicknick", text: `Im Park gab es frische Gurken und eine kuschelige Decke. Oink!`, images: ["image/test4.svg","image/test5.svg"] },
+      { date: "2025-09-09", title: "Sandige Schnauze", text: `Am Strand hat der Wind mein Schwänzchen gekitzelt und die Möwen haben gelacht.`, images: ["image/test3.svg"] },
+      { date: "2025-09-08", title: "Kofferabenteuer", text: `Heute habe ich den Koffer erkundet und eine Socke gefunden. Sehr spannend!`, images: ["image/test1.svg","image/test2.svg"] }
     ];
 
     // ——————————————————————————————
@@ -193,7 +193,7 @@
   date: "${new Date().toISOString().slice(0,10)}",
   title: "Titel hier",
   text: "2–4 Sätze vom Schweinchen. *kursiv* und **fett** gehen.",
-  images: ["images/foto1.jpg"]
+  images: ["image/foto1.jpg"]
 },`;
       try{ await navigator.clipboard.writeText(tpl); alert('Vorlage kopiert! Füge sie in das POSTS‑Array ein.'); }catch{ alert('Kopieren nicht möglich – Safari/iOS? Dann Text manuell markieren.'); }
     });
